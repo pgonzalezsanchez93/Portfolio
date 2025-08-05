@@ -1,0 +1,71 @@
+
+
+  <mat-sidenav #sidenav mode="push" [ngStyle]="{ width: '280px' }">
+    <mat-toolbar color="accent">
+      <span class="ms-4">Menú</span>
+      <span class="spacer"></span>
+      <button mat-icon-button (click)="sidenav.toggle()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-toolbar>
+
+
+    <div class="user-status-container">
+      <ng-container *ngIf="isLoggedIn; else notLoggedIn">
+        <div class="user-info">
+          <mat-icon>account_circle</mat-icon>
+          <span class="user-name">¡ Hola, {{ userName }} !</span>
+        </div>
+        <button
+          mat-stroked-button
+          color="warn"
+          class="logout-button"
+          (click)="logout()"
+        >
+          <mat-icon>exit_to_app</mat-icon>
+          Cerrar sesión
+        </button>
+      </ng-container>
+
+      <ng-template #notLoggedIn>
+        <div class="user-info not-logged-in ms-6">
+          <mat-icon >account_circle</mat-icon>
+          <span>Usuario no identificado</span>
+        </div>
+        <button
+          mat-stroked-button
+          color="primary"
+          class="login-button mx-4 "
+          (click)="login()"
+          >
+          <mat-icon>login</mat-icon>
+          Iniciar sesión
+        </button>
+      </ng-template>
+    </div>
+
+    <mat-divider></mat-divider>
+
+
+    <mat-nav-list>
+      <mat-list-item
+        *ngFor="let item of visibleMenuItems"
+        [routerLink]="item.route"
+        (click)="sidenav.toggle()"
+      ><!--visibleMenuItems-->
+        <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+        <span>{{ item.label }}</span>
+
+      </mat-list-item>
+    </mat-nav-list>
+  </mat-sidenav>
+
+
+  <mat-toolbar color="primary" class="justify-content-between">
+    <button mat-icon-button (click)="sidenav.toggle()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <shared-theme-switcher></shared-theme-switcher>
+  </mat-toolbar>
+
+

@@ -1,0 +1,21 @@
+
+
+<mat-slide-toggle
+  (ngModelChange)="onChange($event)"
+  [(ngModel)]="isDarkThemeActive"
+  labelPosition="before"
+  matTooltip="Cambiar el tema a oscuro o claro">
+  @if (isDarkThemeActive) {
+    <mat-icon>
+      dark_mode
+    </mat-icon>
+  }
+  @if(!isDarkThemeActive){
+    <mat-icon>
+      light_mode
+    </mat-icon>
+  }
+
+
+
+</mat-slide-toggle>

@@ -1,0 +1,17 @@
+mat-card{
+  display: inline;
+  text-align: left;
+  justify-content: space-between;
+}
+mat-card-title{
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 5%;
+  margin-bottom: 4%;
+}
+.content{
+  height: 50px;
+  text-align: center;
+  margin-top: 80px;
+
+}

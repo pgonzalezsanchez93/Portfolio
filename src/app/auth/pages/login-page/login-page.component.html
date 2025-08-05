@@ -1,0 +1,81 @@
+<div class="login-container">
+  <mat-card class="login-card">
+    <mat-card-header>
+      <mat-card-title>{{ isAdmin ? 'Inicio de Sesión de Administrador' : 'Inicio de Sesión de Usuario' }}</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <!-- Login Form -->
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div class="form-field">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Correo electrónico</mat-label>
+            <input
+              matInput
+              type="email"
+              placeholder="ejemplo@correo.com"
+              formControlName="email"
+              autocomplete="email"
+            >
+            <mat-icon matSuffix>email</mat-icon>
+            <mat-error *ngIf="isValidField('email')">
+              {{ getFieldError('email') }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-field">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Contraseña</mat-label>
+            <input
+              matInput
+              [type]="hidePassword ? 'password' : 'text'"
+              formControlName="password"
+              autocomplete="current-password"
+            >
+            <button
+              mat-icon-button
+              matSuffix
+              (click)="hidePassword = !hidePassword"
+              type="button"
+              [attr.aria-label]="'Mostrar contraseña'"
+              [attr.aria-pressed]="hidePassword"
+            >
+              <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+            </button>
+            <mat-error *ngIf="isValidField('password')">
+              {{ getFieldError('password') }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <!-- Admin login toggle -->
+        <div class="admin-toggle">
+          <mat-slide-toggle
+            color="primary"
+            [(ngModel)]="isAdmin"
+            [ngModelOptions]="{standalone: true}">
+            Iniciar sesión como administrador
+          </mat-slide-toggle>
+        </div>
+
+        <div class="button-container">
+          <button
+            mat-raised-button
+            color="primary"
+            type="submit"
+            [disabled]="loginForm.invalid || isLoading"
+            class="login-button"
+          >
+            <mat-spinner *ngIf="isLoading" diameter="20" class="spinner"></mat-spinner>
+            <span *ngIf="!isLoading">Iniciar Sesión</span>
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+
+    <mat-card-actions align="end">
+      <p>¿No tienes cuenta? <a routerLink="/auth/register">Regístrate</a></p>
+    </mat-card-actions>
+  </mat-card>
+</div>

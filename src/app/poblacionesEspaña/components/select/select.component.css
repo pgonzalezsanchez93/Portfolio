@@ -1,0 +1,37 @@
+mat-card {
+  margin-bottom: 1.5rem;
+}
+
+.mat-mdc-form-field {
+  width: 100%;
+}
+
+::ng-deep .mat-mdc-select-panel {
+  max-height: 350px !important;
+}
+
+::ng-deep .mdc-text-field--outlined {
+  --mdc-outlined-text-field-container-height: 56px;
+}
+
+.mat-mdc-progress-bar {
+  height: 5px;
+}
+
+.mat-mdc-card-content {
+  padding-bottom: 16px;
+}
+
+@media (max-width: 768px) {
+  .mat-mdc-card-content {
+    padding: 16px 8px;
+  }
+}
+
+.mat-mdc-select-value {
+  transition: opacity 0.3s ease;
+}
+
+.mat-mdc-form-field-infix {
+  min-height: 56px;
+}

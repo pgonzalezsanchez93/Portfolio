@@ -1,0 +1,72 @@
+<div mat-dialog-title class="row align-items-center text-center mt-20">
+  <div class="col">
+    <h2>{{ country?.translations?.spa?.common || country?.name?.common }}</h2>
+    <mat-divider></mat-divider>
+    <h4 class="text-dark">{{ country?.translations?.spa?.official || country?.name?.official }}</h4>
+  </div>
+  <div class="col align-items-end">
+    <img [src]="country?.flags?.svg" [alt]="country?.flags?.alt" class=" rounded-circle">
+  </div>
+</div>
+
+<mat-divider></mat-divider>
+
+<mat-dialog-content>
+  <mat-list>
+    <mat-list-item class="text-align align-items-baseline"
+      matTooltip=" {{ country?.capital?.[0]  }}, es la capital de {{ country?.translations?.spa?.common }}">
+      <mat-icon class="justify-content-start mx-4">location_city</mat-icon>
+        <strong>Capital: </strong>
+        <span class="visible-media">{{ country?.capital?.[0] || 'No hay datos disponibles'}}</span>
+        <div class="hidden-media">{{ country?.capital?.[0] || 'No hay datos disponibles'}}</div>
+
+        <button
+        mat-mini-fab
+        color="primary"
+        class="ms-2"
+        [routerLink]="['/weather', country?.name?.common!]"
+        mat-dialog-close>
+        <mat-icon>cloud</mat-icon>
+      </button>
+    </mat-list-item>
+    <mat-list>
+      <mat-list-item
+        matTooltip="{{ country?.translations?.spa?.common }} tiene {{ country?.population | number }} habitantes"
+        class="align-items-baseline">
+            <mat-icon class="justify-content-start mx-4">groups</mat-icon>
+            <strong>Población: </strong>
+            <span class="visible-media"> {{ (country?.population | number)  || 'No hay datos disponibles' }} <span class="visible-media">habitantes</span></span>
+          <div class="hidden-media">{{ (country?.population | number)  || 'No hay datos disponibles' }} <span class="visible-media">habitantes</span></div>
+        </mat-list-item>
+      <mat-list-item class="align-items-baseline">
+            <mat-icon class="justify-content-start mx-4">payments</mat-icon>
+            <strong>Moneda: </strong>
+            <span class="visible-media">{{ (country?.currencies | currencyInfo) || 'No hay datos disponibles' }}</span>
+          <div class="hidden-media"> {{  (country?.currencies | currencyInfo) || 'No hay datos disponibles'}}</div>
+      </mat-list-item>
+      <mat-list-item class="language-list-item">
+        <div class="language-content">
+          <div class="language-header">
+            <mat-icon class="justify-content-start mx-4">language</mat-icon>
+            <strong>Idiomas oficiales: </strong>
+          </div>
+          <div class="languages-container">
+            <mat-chip-set>
+              <mat-chip *ngFor="let language of getLanguages(country?.languages)">
+                {{ language || 'No hay datos disponibles'}}
+              </mat-chip>
+            </mat-chip-set>
+          </div>
+        </div>
+      </mat-list-item>
+    </mat-list>
+  </mat-list>
+
+
+<mat-dialog-actions class="justify-content-center">
+  <button mat-fab extended mat-dialog-close cdkFocusInitial color="accent" >
+    <mat-icon>close</mat-icon>
+    Cerrar
+  </button>
+</mat-dialog-actions>
+

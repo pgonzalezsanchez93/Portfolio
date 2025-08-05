@@ -1,0 +1,93 @@
+
+.list-manager-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+
+::ng-deep .mat-mdc-select-trigger {
+  display: flex;
+  align-items: center;
+}
+
+
+@media (max-width: 768px) {
+  .color-icon-row {
+    flex-direction: column;
+  }
+
+  .color-picker-container {
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+  }
+
+  .field-label {
+    width: 80px;
+  }
+}
+
+
+.form-row {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 8px;
+}
+
+.list-name-field {
+  width: 100%;
+}
+
+.color-icon-row {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.color-picker-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 4px;
+  width: 100px;
+}
+
+.field-label {
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.6);
+  margin-left: 4px;
+  margin-bottom: 4px;
+}
+
+.color-preview {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  margin-right: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.color-input {
+  width: 100%;
+  height: 32px;
+  padding: 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.icon-field {
+  flex: 1;
+}
+
+.icon-label {
+  margin-left: 8px;
+}
+
+.add-list-button {
+  width: 100%;
+  margin-top: 8
+
+}

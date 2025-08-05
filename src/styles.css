@@ -1,0 +1,66 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import url('https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400..900;1,400..900&family=Cherry+Bomb+One&family=Niconne&family=Pacifico&display=swap');
+
+
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Alegreya, "Helvetica Neue", sans-serif; }
+
+
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+
+.full-width {
+  width: 100%;
+}
+
+
+.login-container, .register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.login-card, .register-card {
+  max-width: 400px;
+  width: 100%;
+}
+
+.form-field {
+  margin-bottom: 16px;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 24px;
+}
+
+.login-button, .register-button {
+  width: 100%;
+  height: 44px;
+}
+
+.spinner {
+  margin: 0 auto;
+}
+
+/* Estilos para el spinner global */
+.spinner-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}

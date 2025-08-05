@@ -1,0 +1,22 @@
+<mat-sidenav #sidenav mode="push" [ngStyle]="{ width: '280px' }">
+  <mat-toolbar color="accent">
+    <span class="ms-4">Menú</span>
+    <span class="spacer"></span>
+    <button mat-icon-button (click)="sidenav.toggle()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-toolbar>
+
+
+
+  <mat-divider></mat-divider>
+
+
+
+<mat-toolbar color="primary" class="justify-content-between">
+  <button mat-icon-button (click)="sidenav.toggle()">
+    <mat-icon>menu</mat-icon>
+  </button>
+
+</mat-toolbar>
+

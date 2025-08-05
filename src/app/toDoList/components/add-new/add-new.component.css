@@ -1,0 +1,38 @@
+.quick-add-container {
+  margin-bottom: 16px;
+}
+
+.quick-add-form {
+  display: flex;
+  align-items: center;
+}
+
+
+.add-task-card {
+  margin-bottom: 24px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+  border-radius: 8px !important;
+  background-color: white;
+}
+
+.add-task-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .add-task-form .row {
+    margin: 0;
+  }
+
+  .add-task-form .col-md-8,
+  .add-task-form .col-md-4 {
+    padding: 0;
+    margin-bottom: 8px;
+  }
+}

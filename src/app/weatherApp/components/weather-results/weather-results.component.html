@@ -1,0 +1,92 @@
+<mat-card
+  *ngIf="weatherData">
+  <mat-card-header class="m-4">
+    <mat-card-title
+      matTooltip="{{ weatherData.name}},
+      {{ weatherData.sys.country }}">
+      {{ weatherData.name }},
+      {{ weatherData.sys.country }}
+    </mat-card-title>
+    <mat-card-subtitle class="mt-4">
+      <app-activity-recomendation
+      *ngIf="weatherData"
+      [weatherCondition]="weatherData.weather[0].description">
+    </app-activity-recomendation>
+
+    </mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content >
+
+<mat-tab-group>
+  <mat-tab
+    class="h-auto">
+    <ng-template
+      mat-tab-label>
+        <mat-icon>device_thermostat</mat-icon>
+        Temperatura
+    </ng-template>
+    <div
+      class="content"
+      matTooltip="La temperatura en  {{ weatherData.name}} es de {{ weatherData.main.temp| number:'1.1-1' }} °C">
+      {{ weatherData.main.temp| number:'1.1-1' }} °C
+    </div>
+
+  </mat-tab>
+  <mat-tab class="fs-1">
+    <ng-template
+      mat-tab-label>
+      <mat-icon>water</mat-icon>
+      Sensación térmica
+  </ng-template>
+  <div
+    class="content"
+    matTooltip="La sensación térmica en  {{ weatherData.name}} es de {{ weatherData.main.feels_like | number:'1.1-1' }} °C">
+    {{ weatherData.main.feels_like | number:'1.1-1' }} °C
+  </div>
+
+  </mat-tab>
+  <mat-tab>
+    <ng-template
+      mat-tab-label>
+      <mat-icon>airwave</mat-icon>
+      Presión
+  </ng-template>
+  <div
+    class="content"
+  matTooltip="La presión atmosférica en  {{ weatherData.name}} es de {{ weatherData.main.pressure }} hPa">
+    {{ weatherData.main.pressure }} hPa
+  </div>
+
+  </mat-tab>
+  <mat-tab>
+    <ng-template
+      mat-tab-label>
+      <mat-icon>water_drop</mat-icon>
+      Humedad
+  </ng-template>
+  <div
+    class="content"
+    matTooltip="La humedad en  {{ weatherData.name}} es de {{ weatherData.main.humidity }} %">
+    {{ weatherData.main.humidity }} %
+  </div>
+
+  </mat-tab>
+  <mat-tab>
+    <ng-template
+      mat-tab-label>
+      <mat-icon>sunny</mat-icon>
+      Clima
+  </ng-template>
+  <div
+    class="content"
+    matTooltip="El clima en  {{ weatherData.name}} es de {{ weatherData.weather[0].description | titlecase }}">
+    {{ weatherData.weather[0].description | titlecase }}
+  </div>
+
+  </mat-tab>
+</mat-tab-group>
+
+  </mat-card-content>
+
+</mat-card>
+

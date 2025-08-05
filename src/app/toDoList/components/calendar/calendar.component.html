@@ -1,0 +1,30 @@
+<div class="calendar-container">
+  <div class="calendar-info">
+    <div class="calendar-legend" *ngIf="availableLists && availableLists.length > 0">
+      <h3>Listas</h3>
+      <div class="legend-items">
+        <div *ngFor="let list of availableLists" class="legend-item">
+          <div class="color-box" [style.background-color]="list.color"></div>
+          <div class="list-name">
+            <mat-icon>{{ list.icon }}</mat-icon>
+            {{ list.name }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="calendar-instructions">
+      <h4>Instrucciones:</h4>
+      <ul>
+        <li>Haz clic en una fecha para crear una nueva tarea</li>
+        <li>Haz clic en una tarea para editarla</li>
+        <li>Arrastra las tareas para cambiar su fecha</li>
+        <li>En las vistas de semana y día, puedes ajustar la duración</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="calendar-wrapper">
+    <full-calendar #calendar id="main-calendar" [options]="calendarOptions"></full-calendar>
+  </div>
+</div>

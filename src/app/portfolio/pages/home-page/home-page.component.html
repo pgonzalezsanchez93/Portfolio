@@ -1,0 +1,195 @@
+<!-- home-page.component.html -->
+<div class="portfolio-container">
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-6 hero-content">
+          <h1 class="hero-title">Hola, soy <span class="accent-text">Paula</span></h1>
+          <p class="hero-subtitle">Desarrolladora Frontend especializada en Angular</p>
+          <p class="hero-description">Explora mi portafolio para descubrir los proyectos que he desarrollado utilizando tecnologías modernas como Angular, Material Design y APIs externas.</p>
+          <div class="hero-buttons">
+            <button mat-raised-button color="primary" class="me-3" (click)="scrollToProjects()">
+              <mat-icon>code</mat-icon> Ver Proyectos
+            </button>
+            <button mat-raised-button color="accent" class="me-3" (click)="scrollToLinks()">
+              <mat-icon>contact_mail</mat-icon> Contacto
+            </button>
+          </div>
+        </div>
+        <div class="col-lg-6 hero-image-container">
+          <img src="../../../../assets/img/web-dev.png" alt="Desarrolladora Web" class="hero-image">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills Section -->
+  <section class="skills-section">
+    <div class="container">
+      <div class="section-header text-center">
+        <h2>Mis Habilidades</h2>
+        <p>Tecnologías y herramientas que utilizo en mis proyectos</p>
+      </div>
+
+      <div class="row skills-container">
+        <div class="col-md-4 skill-card-wrapper">
+          <mat-card class="skill-card">
+            <mat-card-header>
+              <mat-icon mat-card-avatar color="primary">code</mat-icon>
+              <mat-card-title>Frontend</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="skills-list">
+                <div class="skill-item">
+                  <span>Angular</span>
+                  <mat-progress-bar mode="determinate" value="90"></mat-progress-bar>
+                </div>
+                <div class="skill-item">
+                  <span>HTML/CSS</span>
+                  <mat-progress-bar mode="determinate" value="95"></mat-progress-bar>
+                </div>
+                <div class="skill-item">
+                  <span>JavaScript/TypeScript</span>
+                  <mat-progress-bar mode="determinate" value="85"></mat-progress-bar>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+
+        <div class="col-md-4 skill-card-wrapper">
+          <mat-card class="skill-card">
+            <mat-card-header>
+              <mat-icon mat-card-avatar color="accent">brush</mat-icon>
+              <mat-card-title>Diseño UI</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="skills-list">
+                <div class="skill-item">
+                  <span>Angular Material</span>
+                  <mat-progress-bar mode="determinate" value="90" color="accent"></mat-progress-bar>
+                </div>
+                <div class="skill-item">
+                  <span>Bootstrap</span>
+                  <mat-progress-bar mode="determinate" value="85" color="accent"></mat-progress-bar>
+                </div>
+                <div class="skill-item">
+                  <span>Diseño Responsivo</span>
+                  <mat-progress-bar mode="determinate" value="90" color="accent"></mat-progress-bar>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+
+        <div class="col-md-4 skill-card-wrapper">
+          <mat-card class="skill-card">
+            <mat-card-header>
+              <mat-icon mat-card-avatar color="warn">integration_instructions</mat-icon>
+              <mat-card-title>Herramientas</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="skills-list">
+                <div class="skill-item">
+                  <span>Git/GitHub</span>
+                  <mat-progress-bar mode="determinate" value="80" color="warn"></mat-progress-bar>
+                </div>
+                <div class="skill-item">
+                  <span>REST APIs</span>
+                  <mat-progress-bar mode="determinate" value="85" color="warn"></mat-progress-bar>
+                </div>
+                <div class="skill-item">
+                  <span>Mapbox/APIs Externas</span>
+                  <mat-progress-bar mode="determinate" value="75" color="warn"></mat-progress-bar>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects Section -->
+  <section #projectsSection class="projects-section">
+    <div class="container">
+      <div class="section-header text-center">
+        <h2>Mis Proyectos</h2>
+        <p>Explora los proyectos que he desarrollado</p>
+      </div>
+
+      <home-card-list [projects]="projects" (projectSelected)="onProjectSelected($event)"></home-card-list>
+    </div>
+  </section>
+
+  <!-- About Me Section -->
+  <section class="about-section">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-6">
+          <div class="about-image-container">
+            <img src="../../../../assets/img/web-dev.png" alt="Mi foto" class="about-image">
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="about-content">
+            <h2>Sobre Mí</h2>
+            <p class="about-text">
+              Soy una desarrolladora frontend apasionada por crear experiencias web interactivas y atractivas.
+              Me especializo en el desarrollo con Angular y disfruto trabajando con APIs externas para construir
+              aplicaciones que resuelvan problemas reales.
+            </p>
+            <p class="about-text">
+              Mi enfoque se centra en escribir código limpio y mantenible, prestando especial atención a la
+              experiencia del usuario y la adaptabilidad en distintos dispositivos.
+            </p>
+            <div class="about-stats">
+              <div class="stat-item">
+                <div class="stat-value">4+</div>
+                <div class="stat-label">Proyectos</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-value">10+</div>
+                <div class="stat-label">Tecnologías</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-value">500+</div>
+                <div class="stat-label">Horas de código</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section #contactSection class="contact-section">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-8">
+          <mat-card class="contact-card">
+            <mat-card-header class="text-center">
+              <mat-card-title>¿Interesado en trabajar juntos?</mat-card-title>
+              <mat-card-subtitle>¡Hablemos de tu proyecto!</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="contact-buttons">
+                <a mat-raised-button color="primary" href="mailto:pgonzalezsanchez93@gmail.com">
+                  <mat-icon>email</mat-icon> Enviar Correo
+                </a>
+                <a mat-raised-button color="accent" href="https://www.linkedin.com/in/paula-g-9526a6140" target="_blank">
+                  <mat-icon>link</mat-icon> LinkedIn
+                </a>
+                <a mat-raised-button color="warn" href="https://github.com/pgonzalezsanchez93?tab=repositories" target="_blank">
+                  <mat-icon>code</mat-icon> GitHub
+                </a>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

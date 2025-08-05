@@ -1,0 +1,125 @@
+
+ <h2 mat-dialog-title class="dialog-title">
+  <mat-icon>{{ task.check ? 'task_alt' : 'edit_note' }}</mat-icon>
+  {{ isNewTask ? 'Nueva Tarea' : 'Editar Tarea' }}
+</h2>
+
+<mat-dialog-content class="dialog-content">
+  <form class="edit-task-form">
+
+    <div class="form-field">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Descripción</mat-label>
+        <textarea
+          matInput
+          [(ngModel)]="editingTask.description"
+          name="description"
+          placeholder="Escribe la descripción de la tarea"
+          rows="2"
+          cdkTextareaAutosize
+          required></textarea>
+      </mat-form-field>
+    </div>
+
+
+    <div class="date-time-section">
+      <div class="date-time-header">
+        <h3>Fechas</h3>
+        <mat-slide-toggle
+          [(ngModel)]="editingTask.allDay"
+          name="allDay"
+          color="primary">
+          Todo el día
+        </mat-slide-toggle>
+      </div>
+
+      <div class="date-time-container">
+
+        <div class="date-time-field">
+          <mat-form-field appearance="outline" class="date-field">
+            <mat-label>Fecha de inicio</mat-label>
+            <input
+              matInput
+              [matDatepicker]="startDatePicker"
+              [(ngModel)]="editingTask.startDate"
+              name="startDate">
+            <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+            <mat-datepicker #startDatePicker></mat-datepicker>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="time-field" *ngIf="!editingTask.allDay && editingTask.startDate">
+            <mat-label>Hora de inicio</mat-label>
+            <mat-select [(ngModel)]="startTime" name="startTime">
+              <mat-option *ngFor="let time of hourOptions" [value]="time">
+                {{ time }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="date-time-field">
+          <mat-form-field appearance="outline" class="date-field">
+            <mat-label>Fecha de fin</mat-label>
+            <input
+              matInput
+              [matDatepicker]="endDatePicker"
+              [(ngModel)]="editingTask.endDate"
+              name="endDate"
+              [min]="editingTask.startDate">
+            <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+            <mat-datepicker #endDatePicker></mat-datepicker>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="time-field" *ngIf="!editingTask.allDay && editingTask.endDate">
+            <mat-label>Hora de fin</mat-label>
+            <mat-select [(ngModel)]="endTime" name="endTime">
+              <mat-option *ngFor="let time of hourOptions" [value]="time">
+                {{ time }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="lists-section" *ngIf="data.availableLists && data.availableLists.length > 0">
+      <h3>Asignar a listas</h3>
+      <div class="lists-grid">
+        <mat-checkbox
+          *ngFor="let list of data.availableLists"
+          [checked]="isListSelected(list.id)"
+          (change)="selectList(list.id)"
+          color="primary"
+          class="list-checkbox">
+          <div class="list-option">
+            <mat-icon [style.color]="list.color">{{ list.icon }}</mat-icon>
+            <span>{{ list.name }}</span>
+          </div>
+        </mat-checkbox>
+      </div>
+    </div>
+
+
+    <div class="status-section">
+      <h3>Estado</h3>
+      <mat-checkbox
+        [(ngModel)]="editingTask.check"
+        name="status"
+        color="primary">
+        Marcar como completada
+      </mat-checkbox>
+    </div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancelar</button>
+  <button
+    mat-flat-button
+    color="primary"
+    (click)="onSave()"
+    [disabled]="!editingTask.description.trim()">
+    Guardar
+  </button>
+</mat-dialog-actions>

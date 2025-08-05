@@ -1,0 +1,94 @@
+
+
+ <ng-container *ngIf="simplified; else fullForm">
+  <div class="quick-add-container">
+    <form (ngSubmit)="emitTask()" class="quick-add-form">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Nueva tarea...</mat-label>
+        <input
+          matInput
+          [(ngModel)]="task.description"
+          name="description"
+          placeholder="Añadir tarea rápida"
+          (keyup.enter)="emitTask()"
+          autocomplete="off">
+        <button
+          mat-icon-button
+          matSuffix
+          type="submit"
+          [disabled]="!task.description.trim()"
+          aria-label="Añadir tarea">
+          <mat-icon>add_task</mat-icon>
+        </button>
+      </mat-form-field>
+    </form>
+  </div>
+</ng-container>
+
+<ng-template #fullForm>
+
+  <mat-card appearance="outlined" class="add-task-card">
+    <mat-card-header>
+      <mat-card-title>Añadir Nueva Tarea</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form (ngSubmit)="emitTask()" class="add-task-form">
+        <div class="row">
+          <div class="col-md-8">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Descripción</mat-label>
+              <input
+                matInput
+                [(ngModel)]="task.description"
+                name="description"
+                placeholder="Escribe la descripción de la tarea"
+                (keyup.enter)="emitTask()"
+                autocomplete="off"
+                required>
+            </mat-form-field>
+          </div>
+
+          <div class="col-md-4">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Fecha</mat-label>
+              <input
+                matInput
+                [matDatepicker]="picker"
+                [(ngModel)]="taskDate"
+                name="date">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row" *ngIf="availableLists && availableLists.length > 0">
+          <div class="col-12">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Lista</mat-label>
+              <mat-select [(ngModel)]="selectedListId" name="list">
+                <mat-option [value]="null">Sin lista</mat-option>
+                <mat-option *ngFor="let list of availableLists" [value]="list.id">
+                  <mat-icon [style.color]="list.color">{{ list.icon }}</mat-icon>
+                  {{ list.name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="text-end">
+          <button
+            mat-flat-button
+            color="primary"
+            type="submit"
+            [disabled]="!task.description.trim()">
+            <mat-icon>add</mat-icon>
+            Añadir Tarea
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</ng-template>

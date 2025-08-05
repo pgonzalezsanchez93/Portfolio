@@ -1,0 +1,274 @@
+<div class="container-fluid">
+  <div class="row">
+    <!-- Sidebar para navegación y creación de listas -->
+    <div class="col-lg-3 sidebar-container bg-light p-0">
+      <div class="sidebar-header p-3 bg-primary text-white">
+        <h2 class="mb-0 d-flex align-items-center">
+          <mat-icon class="me-2">check_circle</mat-icon>
+          TodoList
+        </h2>
+      </div>
+
+      <!-- Navegación entre vistas (Listas/Calendario) -->
+      <mat-tab-group class="sidebar-tabs" animationDuration="4ms" (selectedTabChange)="onTabChange($event)">
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon class="me-1">list</mat-icon>
+            Listas
+          </ng-template>
+        </mat-tab>
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon class="me-1">calendar_today</mat-icon>
+            Calendario
+          </ng-template>
+        </mat-tab>
+      </mat-tab-group>
+
+      <!-- Sección para crear nuevas tareas -->
+      <div class="p-3" *ngIf="!isCalendarView">
+        <app-add-new (onNewTask)="onNewTask($event)" [simplified]="true"></app-add-new>
+      </div>
+
+      <!-- Gestión de listas -->
+      <div class="p-3" *ngIf="!isCalendarView">
+        <mat-card appearance="outlined" class="lists-card">
+          <mat-card-header>
+            <div class="d-flex align-items-center w-100">
+              <mat-icon class="me-2">create_new_folder</mat-icon>
+              <mat-card-title>Mis Listas</mat-card-title>
+              <button
+                mat-icon-button
+                color="primary"
+                class="ms-auto"
+                [matTooltip]="showListManager ? 'Ocultar creación de listas' : 'Mostrar creación de listas'"
+                (click)="showListManager = !showListManager">
+                <mat-icon>{{ showListManager ? 'expand_less' : 'expand_more' }}</mat-icon>
+              </button>
+            </div>
+          </mat-card-header>
+
+          <mat-card-content>
+            <!-- Componente para crear listas, mostrado según el estado -->
+            <div *ngIf="showListManager" class="list-manager-container mb-3">
+              <app-list-manager (listCreated)="onNewListCreated($event)"></app-list-manager>
+              <mat-divider class="my-3"></mat-divider>
+            </div>
+
+            <!-- Lista de navegación a las listas existentes -->
+            <mat-nav-list>
+              <a mat-list-item class="mt-2" (click)="selectedList = null" [class.active-list]="!selectedList">
+                <mat-icon class="me-2">inbox</mat-icon> Todas las tareas
+                <span class="badge bg-primary rounded-pill ms-auto">{{ getAllTasks().length }}</span>
+              </a>
+              <a mat-list-item (click)="selectedList = null" [class.active-list]="!selectedList">
+                <mat-icon class="me-2">pending_actions</mat-icon> Pendientes
+                <span class="badge bg-warning rounded-pill ms-auto">{{ getUnassignedTasks().length }}</span>
+              </a>
+              <a mat-list-item *ngFor="let list of availableLists"
+                 (click)="selectedList = list"
+                 [class.active-list]="selectedList && selectedList.id === list.id">
+                <mat-icon [style.color]="list.color" class="me-2">{{ list.icon }}</mat-icon>
+                {{ list.name }}
+                <span class="badge rounded-pill ms-auto" [style.background-color]="list.color">
+                  {{ getTasksForList(list).length }}
+                </span>
+              </a>
+            </mat-nav-list>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+
+    <!-- Contenido principal -->
+    <div class="col-lg-9 main-content p-4">
+      <!-- Vista de Listas -->
+      <div *ngIf="!isCalendarView" class="tasks-container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h2 *ngIf="!selectedList">Todas mis tareas</h2>
+          <h2 *ngIf="selectedList" [style.color]="selectedList.color">
+            <mat-icon>{{ selectedList.icon }}</mat-icon> {{ selectedList.name }}
+          </h2>
+
+          <div>
+            <button mat-stroked-button color="primary" class="me-2" (click)="toggleGrouping()">
+              <mat-icon>{{ isGrouped ? 'view_agenda' : 'view_module' }}</mat-icon>
+              {{ isGrouped ? 'Ver por lista' : 'Ver sin agrupar' }}
+            </button>
+
+            <button mat-stroked-button color="primary" [matMenuTriggerFor]="filterMenu">
+              <mat-icon>filter_list</mat-icon>
+              Filtrar
+            </button>
+            <mat-menu #filterMenu="matMenu">
+              <button mat-menu-item (click)="filterMode = 'all'">
+                <mat-icon>list</mat-icon> Todas
+              </button>
+              <button mat-menu-item (click)="filterMode = 'pending'">
+                <mat-icon>pending</mat-icon> Pendientes
+              </button>
+              <button mat-menu-item (click)="filterMode = 'completed'">
+                <mat-icon>done_all</mat-icon> Completadas
+              </button>
+              <button mat-menu-item (click)="filterMode = 'today'">
+                <mat-icon>today</mat-icon> Hoy
+              </button>
+              <button mat-menu-item (click)="filterMode = 'upcoming'">
+                <mat-icon>event</mat-icon> Próximas
+              </button>
+            </mat-menu>
+          </div>
+        </div>
+
+        <!-- Componente para añadir nuevas tareas (versión completa) -->
+        <div class="row mb-4" *ngIf="!isCalendarView">
+          <div class="col-12">
+            <app-add-new (onNewTask)="onNewTask($event)" [simplified]="false"></app-add-new>
+          </div>
+        </div>
+
+        <!-- Modo agrupado por listas -->
+        <div *ngIf="isGrouped && !selectedList" class="row">
+          <!-- Sección de tareas sin lista asignada (pendientes) -->
+          <div class="col-lg-6 mb-4" *ngIf="getUnassignedTasks().length > 0">
+            <mat-card class="h-100">
+              <mat-card-header>
+                <mat-card-title>
+                  <div class="d-flex align-items-center">
+                    <mat-icon class="me-2">pending_actions</mat-icon>
+                    Tareas Pendientes
+                  </div>
+                </mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <app-list
+                  [taskList]="getUnassignedTasks()"
+                  [availableLists]="availableLists"
+                  (onTaskStatusChange)="onTaskStatusChange($event)"
+                  (onTaskEdit)="onTaskEdit($event)">
+                </app-list>
+              </mat-card-content>
+              <mat-card-actions *ngIf="hasCompletedTasks(null)">
+                <button
+                  mat-button
+                  color="warn"
+                  (click)="deleteCompletedTasksFromList(null)">
+                  <mat-icon>delete</mat-icon>
+                  Limpiar Completadas
+                </button>
+              </mat-card-actions>
+            </mat-card>
+          </div>
+
+          <!-- Sección para cada lista -->
+          <div class="col-lg-6 mb-4" *ngFor="let list of availableLists">
+            <mat-card class="h-100" [style.border-left]="'4px solid ' + list.color">
+              <mat-card-header>
+                <mat-card-title>
+                  <div class="d-flex align-items-center">
+                    <mat-icon [style.color]="list.color" class="me-2">{{ list.icon }}</mat-icon>
+                    {{ list.name }}
+                  </div>
+                </mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <app-list
+                  [taskList]="getTasksForList(list)"
+                  [availableLists]="availableLists"
+                  (onTaskStatusChange)="onTaskStatusChange($event)"
+                  (onTaskEdit)="onTaskEdit($event)">
+                </app-list>
+              </mat-card-content>
+              <mat-card-actions>
+                <div class="d-flex justify-content-end gap-2">
+                  <button
+                    *ngIf="hasCompletedTasks(list.id)"
+                    mat-button
+                    color="primary"
+                    (click)="deleteCompletedTasksFromList(list.id)">
+                    <mat-icon>done_all</mat-icon>
+                    Limpiar Completadas
+                  </button>
+
+                  <button
+                    *ngIf="getTasksForList(list).length > 0"
+                    mat-button
+                    color="primary"
+                    (click)="onDeleteTasks(list)">
+                    <mat-icon>delete_sweep</mat-icon>
+                    Limpiar lista
+                  </button>
+
+                  <button
+                    mat-icon-button
+                    color="warn"
+                    (click)="deleteList(list)"
+                    matTooltip="Eliminar la lista {{list.name}}">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </div>
+              </mat-card-actions>
+            </mat-card>
+          </div>
+        </div>
+
+        <!-- Modo no agrupado o vista de una lista específica -->
+        <div *ngIf="!isGrouped || selectedList" class="tasks-container">
+          <mat-card>
+            <mat-card-content>
+              <app-list
+                [taskList]="selectedList ? getTasksForList(selectedList) : getFilteredTasks()"
+                [availableLists]="availableLists"
+                [displayStyle]="'grid'"
+                (onTaskStatusChange)="onTaskStatusChange($event)"
+                (onTaskEdit)="onTaskEdit($event)">
+              </app-list>
+            </mat-card-content>
+            <mat-card-actions *ngIf="selectedList && getTasksForList(selectedList).length > 0">
+              <div class="d-flex justify-content-end gap-2">
+                <button
+                  *ngIf="hasCompletedTasks(selectedList.id)"
+                  mat-button
+                  color="primary"
+                  (click)="deleteCompletedTasksFromList(selectedList.id)">
+                  <mat-icon>done_all</mat-icon>
+                  Limpiar Completadas
+                </button>
+
+                <button
+                  mat-button
+                  color="primary"
+                  (click)="onDeleteTasks(selectedList)">
+                  <mat-icon>delete_sweep</mat-icon>
+                  Limpiar lista
+                </button>
+
+                <button
+                  mat-icon-button
+                  color="warn"
+                  (click)="deleteList(selectedList)"
+                  matTooltip="Eliminar la lista {{selectedList.name}}">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </mat-card-actions>
+          </mat-card>
+        </div>
+      </div>
+
+      <!-- Vista de Calendario -->
+      <div *ngIf="isCalendarView" class="calendar-container">
+        <mat-card>
+          <mat-card-content>
+            <app-calendar
+              [tasks]="tasks"
+              [availableLists]="availableLists"
+              (taskAdded)="onNewTask($event)"
+              (taskUpdated)="onTaskEdit($event)">
+            </app-calendar>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>

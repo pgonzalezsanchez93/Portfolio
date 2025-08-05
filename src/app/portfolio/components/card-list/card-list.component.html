@@ -1,0 +1,36 @@
+<div class="card-container" [@staggerList]="projects.length">
+  <mat-card
+    class="project-card"
+    *ngFor="let project of projects"
+    (click)="selectProject(project.route!)"
+    [@fadeIn]>
+
+    <div class="project-image-container">
+      <img mat-card-image [src]="project.image" [alt]="project.title" class="project-image">
+      <div class="project-overlay">
+        <button mat-mini-fab color="primary" aria-label="Ver proyecto">
+          <mat-icon>visibility</mat-icon>
+        </button>
+      </div>
+    </div>
+
+    <mat-card-content class="project-content">
+      <h3 class="project-title">{{ project.title }}</h3>
+      <p class="project-description">{{ project.description }}</p>
+
+      <div class="project-technologies" *ngIf="project.technologies?.length">
+        <mat-chip-set>
+          <mat-chip *ngFor="let tech of project.technologies" color="accent" selected>
+            {{ tech }}
+          </mat-chip>
+        </mat-chip-set>
+      </div>
+    </mat-card-content>
+
+    <mat-card-actions class="project-actions">
+      <button mat-button color="primary" [routerLink]="[project.route]">
+        Explorar <mat-icon>arrow_forward</mat-icon>
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>

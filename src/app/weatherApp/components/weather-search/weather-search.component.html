@@ -1,0 +1,42 @@
+<div class="container mt-4">
+  <div class="row justify-content-center">
+
+    <div class="col-12 col-md-8 col-lg-6 mb-5 mb-md-2 ">
+      <mat-form-field class="w-100">
+        <mat-label>
+          Ciudad
+        </mat-label>
+   <!--      <div>
+          <p>{{getCapitalFromFlags()}}</p>
+        </div> -->
+        <input
+          matInput
+          placeholder="Ej. Cáceres"
+          [(ngModel)]="cityName"
+          (keyup.enter)="searchCity()"
+          name="city"
+          matTooltip="Introduce el nombre de una ciudad">
+        <button
+          matSuffix
+          mat-icon-button
+          *ngIf="cityName"
+          matTooltip="Borrar el contenido"
+          aria-label="Clear"
+          (click)="cityName=''"
+          >
+          <mat-icon>close</mat-icon>
+        </button>
+
+      </mat-form-field>
+    </div>
+    <div class="col-12 col-md-auto text-center">
+        <button
+        *ngIf="cityName"
+        mat-fab extended (click)="searchCity()"
+        matTooltip="Buscar tiempo">
+        <mat-icon>search</mat-icon>
+        Buscar
+      </button>
+      </div>
+  </div>
+</div>

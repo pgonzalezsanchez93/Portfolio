@@ -1,0 +1,28 @@
+.main-title {
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+  color: #3f51b5;
+  font-weight: 500;
+}
+
+.lead {
+  font-size: 1.1rem;
+  color: #555;
+  margin-bottom: 1.5rem;
+}
+
+footer {
+  padding: 1rem 0;
+  border-top: 1px solid #eee;
+  margin-top: 2rem;
+}
+
+@media (max-width: 768px) {
+  .main-title {
+    font-size: 1.8rem;
+  }
+
+  .lead {
+    font-size: 1rem;
+  }
+}

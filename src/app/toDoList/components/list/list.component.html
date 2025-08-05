@@ -1,0 +1,89 @@
+
+
+ <div [class]="displayStyle === 'grid' ? 'task-grid' : 'task-list'">
+  <ng-container *ngIf="taskList && taskList.length > 0; else emptyState">
+    <div
+      *ngFor="let task of taskList; trackBy: trackByTaskId"
+      class="task-item"
+      [class.completed]="task.check">
+
+      <mat-card appearance="outlined" class="task-card" [style.border-left]="getTaskBorderColor(task)">
+        <div class="task-content">
+          <div class="task-header">
+            <mat-checkbox
+              [checked]="task.check"
+              (change)="toggleTaskCheck(task)"
+              color="primary">
+              <span [class.line-through]="task.check">{{ task.description }}</span>
+            </mat-checkbox>
+
+            <div class="task-actions">
+              <button
+                mat-icon-button
+                color="primary"
+                (click)="editTask(task)"
+                matTooltip="Editar tarea">
+                <mat-icon>edit</mat-icon>
+              </button>
+
+              <button
+                mat-icon-button
+                *ngIf="availableLists && availableLists.length > 0"
+                [matMenuTriggerFor]="taskMenu"
+                matTooltip="Opciones">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+
+              <mat-menu #taskMenu="matMenu">
+                <div class="menu-header">Mover a lista:</div>
+                <button
+                  mat-menu-item
+                  *ngFor="let list of availableLists"
+                  (click)="assignTaskToList(task, list)">
+                  <mat-icon [style.color]="list.color">{{ list.icon }}</mat-icon>
+                  <span>{{ list.name }}</span>
+                </button>
+
+                <mat-divider></mat-divider>
+
+                <button
+                  mat-menu-item
+                  color="warn"
+                  (click)="removeTask(task)">
+                  <mat-icon color="warn">delete</mat-icon>
+                  <span>Eliminar tarea</span>
+                </button>
+              </mat-menu>
+            </div>
+          </div>
+
+          <div class="task-details" *ngIf="task.startDate || getTaskListName(task) !== 'Sin lista'">
+            <div class="task-date" *ngIf="task.startDate">
+              <mat-icon>event</mat-icon>
+              <span>{{ formatDate(task.startDate) }}</span>
+              <span *ngIf="task.endDate"> - {{ formatDate(task.endDate) }}</span>
+            </div>
+
+            <div class="task-list-badge" *ngIf="getTaskListName(task) !== 'Sin lista'">
+              <mat-icon [style.color]="getTaskListColor(task)">{{ getTaskListIcon(task) }}</mat-icon>
+              <span>{{ getTaskListName(task) }}</span>
+            </div>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+  </ng-container>
+
+  <ng-template #emptyState>
+    <div class="empty-state">
+      <mat-icon class="empty-icon">check_circle_outline</mat-icon>
+      <h3>No hay tareas</h3>
+      <p>Añade una nueva tarea usando el formulario de arriba.</p>
+    </div>
+  </ng-template>
+</div>
+
+<div class="task-count" *ngIf="taskList && taskList.length > 0">
+  {{ taskList.length }} tarea{{ taskList.length !== 1 ? 's' : '' }}
+  ({{ getCompletedTasksCount() }} completada{{ getCompletedTasksCount() !== 1 ? 's' : '' }})
+</div>

@@ -1,0 +1,53 @@
+
+
+ <div class="list-manager-form">
+  <div class="form-row">
+    <mat-form-field appearance="outline" class="list-name-field">
+      <mat-label>Nombre de la lista</mat-label>
+      <input
+        matInput
+        [(ngModel)]="newListName"
+        placeholder="Nueva lista..."
+        autocomplete="off">
+      <mat-hint>Escribe un nombre descriptivo</mat-hint>
+    </mat-form-field>
+  </div>
+
+  <div class="form-row color-icon-row">
+    <div class="color-picker-container">
+      <label class="field-label">Color</label>
+      <div class="color-preview" [style.background-color]="newListColor"></div>
+      <input
+        type="color"
+        class="color-input"
+        [(ngModel)]="newListColor"
+        matTooltip="Selecciona el color para la lista">
+    </div>
+
+    <mat-form-field appearance="outline" class="icon-field">
+      <mat-label>Icono</mat-label>
+      <mat-select [(ngModel)]="newListIcon">
+        <mat-select-trigger>
+          <mat-icon [style.color]="newListColor">{{ newListIcon }}</mat-icon>
+          <span class="icon-label">{{ getIconLabel(newListIcon) }}</span>
+        </mat-select-trigger>
+        <mat-option *ngFor="let option of menuOptions" [value]="option.icon">
+          <mat-icon [style.color]="newListColor">{{ option.icon }}</mat-icon>
+          <span>{{ option.label }}</span>
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="form-row">
+    <button
+      mat-flat-button
+      color="primary"
+      class="add-list-button"
+      [disabled]="!newListName.trim()"
+      (click)="addNewList()">
+      <mat-icon>add</mat-icon>
+      Crear Lista
+    </button>
+  </div>
+</div>
